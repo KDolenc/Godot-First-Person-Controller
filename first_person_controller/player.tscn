@@ -1,0 +1,125 @@
+[gd_scene load_steps=15 format=3 uid="uid://c64egn440grrk"]
+
+[ext_resource type="Script" path="res://first_person_controller/player.gd" id="1_r8wax"]
+[ext_resource type="PackedScene" uid="uid://d1dajo2dye41o" path="res://first_person_controller/state_machine/state_machine.tscn" id="2_k3ced"]
+[ext_resource type="PackedScene" uid="uid://dbchghohu2hsy" path="res://first_person_controller/state_machine/states/idle_player_state.tscn" id="3_5xjw6"]
+[ext_resource type="PackedScene" uid="uid://dqt7csr4j6jwh" path="res://first_person_controller/state_machine/states/walking_player_state.tscn" id="4_is556"]
+[ext_resource type="PackedScene" uid="uid://dyg7fgf0vsgg8" path="res://first_person_controller/state_machine/states/running_player_state.tscn" id="5_ht78x"]
+[ext_resource type="PackedScene" uid="uid://bmuxnmroypdx5" path="res://first_person_controller/state_machine/states/jumping_player_state.tscn" id="6_2wk4n"]
+[ext_resource type="PackedScene" uid="uid://d1oyt1267l548" path="res://first_person_controller/state_machine/states/crouching_player_state.tscn" id="6_oip66"]
+[ext_resource type="PackedScene" uid="uid://csvs1dh1dpux5" path="res://first_person_controller/state_machine/states/falling_player_state.tscn" id="7_em4gf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vtlqx"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_k2utt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sb7e7"]
+radius = 0.49
+height = 1.0
+
+[sub_resource type="Animation" id="Animation_rkj6j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+
+[sub_resource type="Animation" id="Animation_675le"]
+resource_name = "crouch"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7t0rg"]
+_data = {
+"RESET": SubResource("Animation_rkj6j"),
+"crouch": SubResource("Animation_675le")
+}
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("collision_shape", "camera", "uncrouch_shape_cast", "animation_player", "state_machine")]
+script = ExtResource("1_r8wax")
+collision_shape = NodePath("CollisionShape3D")
+camera = NodePath("Camera3D")
+uncrouch_shape_cast = NodePath("UncrouchShapeCast3D")
+animation_player = NodePath("AnimationPlayer")
+state_machine = NodePath("StateMachine")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_vtlqx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 2
+mesh = SubResource("CapsuleMesh_k2utt")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+cull_mask = 1048573
+current = true
+fov = 90.0
+
+[node name="UncrouchShapeCast3D" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_sb7e7")
+target_position = Vector3(0, 0.51, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7t0rg")
+}
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("current_state") instance=ExtResource("2_k3ced")]
+current_state = NodePath("IdlePlayerState")
+
+[node name="IdlePlayerState" parent="StateMachine" instance=ExtResource("3_5xjw6")]
+
+[node name="WalkingPlayerState" parent="StateMachine" instance=ExtResource("4_is556")]
+
+[node name="RunningPlayerState" parent="StateMachine" instance=ExtResource("5_ht78x")]
+
+[node name="CrouchingPlayerState" parent="StateMachine" instance=ExtResource("6_oip66")]
+
+[node name="JumpingPlayerState" parent="StateMachine" instance=ExtResource("6_2wk4n")]
+
+[node name="FallingPlayerState" parent="StateMachine" instance=ExtResource("7_em4gf")]

@@ -1,0 +1,147 @@
+[gd_scene load_steps=9 format=3 uid="uid://doirsilijb4bo"]
+
+[ext_resource type="PackedScene" uid="uid://c8icdw6cqnspu" path="res://demo_level/debug/debug_interface.tscn" id="1_utcf8"]
+[ext_resource type="Material" uid="uid://cesqan8rmah3o" path="res://demo_level/materials/material_orange.tres" id="2_0n5qu"]
+[ext_resource type="Material" uid="uid://botpgynaxxrw7" path="res://demo_level/materials/material_dark.tres" id="3_uxrol"]
+[ext_resource type="PackedScene" uid="uid://c64egn440grrk" path="res://first_person_controller/player.tscn" id="4_jf2wh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wldwk"]
+
+[sub_resource type="Sky" id="Sky_goob5"]
+sky_material = SubResource("ProceduralSkyMaterial_wldwk")
+
+[sub_resource type="Environment" id="Environment_rej8o"]
+background_mode = 2
+sky = SubResource("Sky_goob5")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ndowv"]
+viewport_path = NodePath("Mirror/SubViewport")
+
+[node name="DemoLevel" type="Node3D"]
+
+[node name="DebugInterface" parent="." node_paths=PackedStringArray("player") instance=ExtResource("1_utcf8")]
+mouse_filter = 2
+player = NodePath("../Player")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_rej8o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Level" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="Wall" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 3.5, -2.5)
+use_collision = true
+size = Vector3(6, 6, 1)
+material = ExtResource("2_0n5qu")
+
+[node name="Cover" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -6)
+use_collision = true
+size = Vector3(2, 0.5, 4)
+material = ExtResource("3_uxrol")
+
+[node name="Cover2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 9)
+use_collision = true
+size = Vector3(16, 0.5, 2)
+material = ExtResource("3_uxrol")
+
+[node name="Box" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.5, -7)
+use_collision = true
+size = Vector3(2, 2, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -7)
+use_collision = true
+material = ExtResource("2_0n5qu")
+
+[node name="Box3" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -9)
+use_collision = true
+size = Vector3(2, 1, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box4" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.5, -9)
+use_collision = true
+size = Vector3(2, 2, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box5" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2, -9)
+use_collision = true
+size = Vector3(2, 3, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box6" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.5, -7)
+use_collision = true
+size = Vector3(2, 4, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box7" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3, -5)
+use_collision = true
+size = Vector3(2, 5, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box8" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 6, 0)
+use_collision = true
+size = Vector3(1, 1, 2)
+material = ExtResource("3_uxrol")
+
+[node name="Box9" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 7, 5)
+use_collision = true
+size = Vector3(1, 1, 2)
+material = ExtResource("3_uxrol")
+
+[node name="Box10" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.5, 9)
+use_collision = true
+size = Vector3(2, 8, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box11" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 9)
+use_collision = true
+size = Vector3(16, 4, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Box12" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4.5, 9)
+use_collision = true
+size = Vector3(2, 8, 2)
+material = ExtResource("2_0n5qu")
+
+[node name="Platform" type="CSGBox3D" parent="Level"]
+use_collision = true
+size = Vector3(20, 1, 20)
+material = ExtResource("3_uxrol")
+
+[node name="Mirror" type="Node3D" parent="."]
+transform = Transform3D(0.373745, 0, 0, 0, 0.3564, 0, 0, 0, 1, -7, 1.5, -5.99)
+
+[node name="Sprite3D" type="Sprite3D" parent="Mirror"]
+transform = Transform3D(1.04, 0, 0, 0, 1.08, 0, 0, 0, 1, 0, 0, 0)
+flip_h = true
+texture = SubResource("ViewportTexture_ndowv")
+
+[node name="SubViewport" type="SubViewport" parent="Mirror"]
+
+[node name="Camera3D" type="Camera3D" parent="Mirror/SubViewport"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1.5, -5.99)
+fov = 90.0
+
+[node name="Player" parent="." instance=ExtResource("4_jf2wh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)

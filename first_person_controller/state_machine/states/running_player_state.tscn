@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyg7fgf0vsgg8"]
+
+[ext_resource type="PackedScene" uid="uid://g3hfqe1gfn2r" path="res://first_person_controller/state_machine/state.tscn" id="1_0ujwp"]
+[ext_resource type="Script" path="res://first_person_controller/state_machine/states/running_player_state.gd" id="2_g852w"]
+
+[node name="RunningPlayerState" instance=ExtResource("1_0ujwp")]
+script = ExtResource("2_g852w")
